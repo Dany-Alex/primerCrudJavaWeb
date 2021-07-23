@@ -24,14 +24,10 @@ public class productoDAO {
     private boolean estadoOperacion;
     //obtener conexion pool
 
-    private Connection obtenerConexion() throws SQLException {
-        return conexion.getConnection();
-    }
-
     public boolean guardar(producto producto) throws SQLException {
         String sqlQuery = null;
         estadoOperacion = false;
-        connection = obtenerConexion();
+
         try {
             connection.setAutoCommit(false);
             sqlQuery = "INSERT INT productos (id, nombre, cantidad, precio, fecha_crear,fecha_actulizar) VALUES(?,?,?,?,?,?)";

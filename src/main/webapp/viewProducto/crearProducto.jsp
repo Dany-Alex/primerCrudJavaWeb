@@ -30,7 +30,18 @@
                     <td><input type="text" name="nombre"></td>
 
                 </tr>
-                
+                 <tr>
+
+                    <td>ID:</td>
+                    <td><input type="text" name="id"></td>
+
+                </tr>
+                  <tr>
+
+                    <td>Precio:</td>
+                    <td><input type="text" name="id"></td>
+
+                </tr>
 
 
 

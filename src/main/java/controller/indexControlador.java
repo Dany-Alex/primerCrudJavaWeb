@@ -5,21 +5,24 @@
  */
 package controller;
 
+import consultas.consultaCliente;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.cliente;
 
 /**
  *
  * @author Artist
  */
-@WebServlet(name = "productoControlador", urlPatterns = {"/productoControlador"})
-public class productoControlador extends HttpServlet {
+@WebServlet(name = "indexControlador", urlPatterns = {"/indexControlador"})
+public class indexControlador extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,14 +41,17 @@ public class productoControlador extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet productoControlador</title>");
+            out.println("<title>Servlet indexControlador</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet productoControlador at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet indexControlador at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
+
+    String cliente = "/viewProducto/vistaCliente.jsp",
+            empleado = "/viewProducto/vistaEmpleado.jsp";
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -59,8 +65,35 @@ public class productoControlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
 
+        String opcion = request.getParameter("opcion");
+        String urlAcceso = "";
+        List<cliente> arrayList = null;
+        RequestDispatcher requestDispatcher = null;
+
+        if (opcion == null || opcion.isEmpty()) {
+            requestDispatcher = request.getRequestDispatcher(cliente);
+            consultaCliente consultaCliente = new consultaCliente();
+            arrayList = consultaCliente.ListarDatos();
+            request.setAttribute("listarCliente", arrayList);
+        } else {
+            switch (opcion) {
+
+                case "cliente":
+                    urlAcceso = cliente;
+                    break;
+                case "empleado":
+                    System.out.println("opcion empleado");
+                    urlAcceso = empleado;
+                    break;
+                default:
+
+            }
+            requestDispatcher = request.getRequestDispatcher(urlAcceso);
+        }
+
+        requestDispatcher.forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -74,7 +107,8 @@ public class productoControlador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
+
     }
 
     /**

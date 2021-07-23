@@ -12,7 +12,7 @@
         <title>Mi CRUD Java Web</title>
     </head>
     <body>
-        <h1>Titulo</h1>
+        <h1>Intelaf</h1>
 
         <div> 
             <table class="default" border="1">
@@ -25,17 +25,14 @@
 
                 <tr>
                 
-                    <td><a href="productoControlador?opcion=crear">Crear Producto</a></td>
+                    <td><a href="indexControlador?opcion=cliente">Cliente</a></td>
+                </tr>
+           
+                <tr>
+                    <td><a href="indexControlador?opcion=empleado">Empleado</a></td>
                 </tr>
                 <tr>
-
-                    <td><a href="productoControlador?opcion=modificar">Modificar Producto</a></td>
-                </tr>
-                <tr>
-                    <td><a href="productoControlador?opcion=eliminar">Eliminar Producto</a></td>
-                </tr>
-                <tr>
-                    <td><a href="productoControlador?opcion=listar">Listar Productos</a></td>
+                    <td><a href="indexControlador?opcion=pedido">Pedido</a></td>
 
                 </tr>
 
