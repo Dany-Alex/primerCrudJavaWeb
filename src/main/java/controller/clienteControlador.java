@@ -5,7 +5,6 @@
  */
 package controller;
 
-import consultas.consultaCliente;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -21,8 +20,8 @@ import model.cliente;
  *
  * @author Artist
  */
-@WebServlet(name = "indexControlador", urlPatterns = {"/indexControlador"})
-public class indexControlador extends HttpServlet {
+@WebServlet(name = "clienteControlador", urlPatterns = {"/clienteControlador"})
+public class clienteControlador extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,14 +40,18 @@ public class indexControlador extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet indexControlador</title>");
+            out.println("<title>Servlet clienteControlador</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet indexControlador at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet clienteControlador at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
+
+    String cliente = "/view/viewCliente/vistaCliente.jsp",
+            crear = "/view/viewCliente/vistaCrearCliente.jsp",
+            modificar = "/view/viewEmpleado/vistaMoficarCliente.jsp";
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -63,6 +66,29 @@ public class indexControlador extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String opcion = request.getParameter("opcion");
+        String urlAcceso = "";
+        RequestDispatcher requestDispatcher = null;
+        if (opcion == null || opcion.isEmpty()) {
+            requestDispatcher = request.getRequestDispatcher(cliente);
+        } else {
+            switch (opcion) {
+                case "crear":
+                    urlAcceso = crear;
+                    break;
+                case "nuevo":
+                    urlAcceso = cliente;
+                    break;
+                case "modificar":
+                    urlAcceso = modificar;
+                    break;
+                default:
+
+            }
+            requestDispatcher = request.getRequestDispatcher(urlAcceso);
+        }
+
+        requestDispatcher.forward(request, response);
         processRequest(request, response);
     }
 
@@ -77,9 +103,7 @@ public class indexControlador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // doGet(request, response);
         processRequest(request, response);
-
     }
 
     /**

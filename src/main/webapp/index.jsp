@@ -25,14 +25,14 @@
 
                 <tr>
                 
-                    <td><a href="indexControlador?opcion=cliente">Cliente</a></td>
+                    <td><a href="clienteControlador">Cliente</a></td>
                 </tr>
            
                 <tr>
-                    <td><a href="indexControlador?opcion=empleado">Empleado</a></td>
+                    <td><a href="empleadoControlador">Empleado</a></td>
                 </tr>
                 <tr>
-                    <td><a href="indexControlador?opcion=pedido">Pedido</a></td>
+                    <td><a href="pedidoControlador">Pedido</a></td>
 
                 </tr>
 

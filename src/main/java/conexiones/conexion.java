@@ -6,6 +6,8 @@
 package conexiones;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -14,7 +16,7 @@ public class conexion {
     private static BasicDataSource dataSource = null;
 
     // Librería de MySQL
-    // final private static String driver = "com.mysql.jdbc.Driver";
+    //  final private static String driver = "com.mysql.jdbc.Driver";
     final private static String driver = "com.mysql.cj.jdbc.Driver";
     // Nombre de la base de datos
     private static String database = "intelaf";
@@ -27,9 +29,9 @@ public class conexion {
     // Puerto
     private static String zonaHoraria = "&serverTimezone=UTC";
     // Ruta de nuestra base de datos (desactivamos el uso de SSL con "?useSSL=false")
-    // private String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
-    private static String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false" + zonaHoraria;
+    //private String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
 
+    private static String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false" + zonaHoraria;
     // Nombre de usuario
     private static String username = "root";
 
@@ -49,32 +51,18 @@ public class conexion {
             dataSource.setUsername(username);
             dataSource.setPassword(password);
             dataSource.setUrl(url);
-
             dataSource.setInitialSize(20);
-            dataSource.setMaxIdle(15);
+            dataSource.setMaxIdle(2);
             dataSource.setMaxTotal(20);
-            dataSource.setMaxWaitMillis(5000);
+            dataSource.setMaxWaitMillis(10000);
 
         }
         return dataSource;
     }
 
     public Connection getConnection() throws SQLException {
-        return getDataSource().getConnection();
+        connection = getDataSource().getConnection();
+        return connection;
     }
 
-    public ResultSet getResultSet(String MySQLCodigo) throws SQLException {
-        try {
-
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(MySQLCodigo);
-        } catch (SQLException ex) {
-            System.out.println("managerDB diece: Error de conexion con la base de datos: " + ex.toString());
-
-        } finally {
-            preparedStatement = null;
-        }
-
-        return resultSet;
-    }
 }

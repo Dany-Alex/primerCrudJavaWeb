@@ -6,13 +6,17 @@
 package consultas;
 
 import conexiones.conexion;
+import conexiones.managerDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.table.DefaultTableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import model.cliente;
 
 /**
@@ -21,21 +25,35 @@ import model.cliente;
  */
 public class consultaCliente {
 
-    conexion conexion = new conexion();
-
+    managerDB managerDB = null;
     private Connection connection;
     private ResultSet resultSet;
     private PreparedStatement preparedStatement;
     private String nombreTabla = "cliente";
 
+    public consultaCliente() {
+
+        try {
+            //conexion conexion = new conexion();
+            //  this.connection = conexion.getConnection();
+            managerDB = new managerDB();
+            this.connection = managerDB.getConexion();
+
+        } catch (Exception e) {
+            //System.err.print("Ha ocurrido un error: " + e.getMessage());
+            System.out.println("consulta " + nombreTabla + " dice: Ha ocurrido un error: " + e.toString());
+        }
+    }
+
     public List ListarDatos() {
         ArrayList<cliente> arrayList = new ArrayList<cliente>();
         try {
-            connection = conexion.getConnection();
             String query = "SELECT * FROM " + nombreTabla + ";";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
+            System.out.println("query = " + query);
 
+            //preparedStatement = connection.prepareStatement(query);
+            // resultSet = preparedStatement.executeQuery();
+            resultSet = managerDB.getPreparedStatement(query);
             while (resultSet.next()) {
                 cliente cliente = new cliente();
 
@@ -51,14 +69,15 @@ public class consultaCliente {
                 System.out.println("consulta lista size - " + arrayList.size());
                 arrayList.add(cliente);
             }
+            resultSet.close();
+            System.out.println((resultSet.isClosed()) ? "Resulset Cerrado" : "Resulset No Cerrado");
         } catch (Exception e) {
             //System.err.print("Ha ocurrido un error: " + e.getMessage());
-            System.out.println("consulta " + nombreTabla + " dice: Ha ocurrido un error: " + e.getMessage());
+            System.out.println("consulta " + nombreTabla + " dice: Ha ocurrido un error: " + e.toString());
         } finally {
-
+            preparedStatement = null;
         }
         return arrayList;
-
     }
 
 }
